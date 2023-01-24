@@ -15,24 +15,22 @@ class DayNightTimePickerAndroid extends StatefulWidget {
   const DayNightTimePickerAndroid({Key? key}) : super(key: key);
 
   @override
-  DayNightTimePickerAndroidState createState() =>
-      DayNightTimePickerAndroidState();
+  DayNightTimePickerAndroidState createState() => DayNightTimePickerAndroidState();
 }
 
 /// Picker state class
 class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
+  double myHourValue = DateTime.now().hour.toDouble() + 1;
+
   @override
   Widget build(BuildContext context) {
     final timeState = TimeModelBinding.of(context);
 
-    double min = getMinMinute(
-        timeState.widget.minMinute, timeState.widget.minuteInterval);
-    double max = getMaxMinute(
-        timeState.widget.maxMinute, timeState.widget.minuteInterval);
+    double min = getMinMinute(timeState.widget.minMinute, timeState.widget.minuteInterval);
+    double max = getMaxMinute(timeState.widget.maxMinute, timeState.widget.minuteInterval);
 
     int minDiff = (max - min).round();
-    int divisions =
-        getMinuteDivisions(minDiff, timeState.widget.minuteInterval);
+    int divisions = getMinuteDivisions(minDiff, timeState.widget.minuteInterval);
 
     if (timeState.hourIsSelected) {
       min = timeState.widget.minHour!;
@@ -40,25 +38,19 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
       divisions = (max - min).round();
     }
 
-    final color =
-        timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
+    final color = timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
 
-    final hourValue = timeState.widget.is24HrFormat
-        ? timeState.time.hour
-        : timeState.time.hourOfPeriod;
+    final hourValue = timeState.widget.is24HrFormat ? timeState.time.hour : timeState.time.hourOfPeriod;
 
-    final ltrMode =
-        timeState.widget.ltrMode ? TextDirection.ltr : TextDirection.rtl;
+    final ltrMode = timeState.widget.ltrMode ? TextDirection.ltr : TextDirection.rtl;
 
-	final hideButtons = timeState.widget.hideButtons;
+    final hideButtons = timeState.widget.hideButtons;
 
     Orientation currentOrientation = MediaQuery.of(context).orientation;
 
     return Center(
       child: SingleChildScrollView(
-        physics: currentOrientation == Orientation.portrait
-            ? const NeverScrollableScrollPhysics()
-            : const AlwaysScrollableScrollPhysics(),
+        physics: currentOrientation == Orientation.portrait ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
         child: FilterWrapper(
           child: WrapperDialog(
             child: Column(
@@ -95,9 +87,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                                   : () {
                                       timeState.onHourIsSelectedChange(false);
                                     },
-                              value: timeState.time.minute
-                                  .toString()
-                                  .padLeft(2, '0'),
+                              value: timeState.time.minute.toString().padLeft(2, '0'),
                               isSelected: !timeState.hourIsSelected,
                             ),
                           ],
@@ -109,17 +99,27 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                             timeState.onOk();
                           }
                         },
-                        value: timeState.hourIsSelected
-                            ? timeState.time.hour.roundToDouble()
-                            : timeState.time.minute.roundToDouble(),
-                        onChanged: timeState.onTimeChange,
-                        min: min,
+                        value: timeState.hourIsSelected ? timeState.time.hour.roundToDouble() : DateTime.now().hour.toDouble() + 1 == myHourValue && min > timeState.time.minute.roundToDouble()
+                                ? DateTime.now().minute.roundToDouble()
+                                : timeState.time.minute.roundToDouble(),
+                        onChanged: (value) {
+                          if (timeState.hourIsSelected) {
+                            myHourValue = value;
+                            setState(() {});
+                          }
+                          timeState.onTimeChange(value);
+                        },
+                        min: timeState.hourIsSelected
+                            ? min
+                            : DateTime.now().hour.toDouble() + 1 == myHourValue
+                                ? DateTime.now().minute.toDouble()
+                                : 0.0,
                         max: max,
                         divisions: divisions,
                         activeColor: color,
                         inactiveColor: color.withAlpha(55),
                       ),
-					  if (!hideButtons) const ActionButtons(),
+                      if (!hideButtons) const ActionButtons(),
                     ],
                   ),
                 ),

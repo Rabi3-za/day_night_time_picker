@@ -246,6 +246,9 @@ class TimeModelBindingState extends State<TimeModelBinding> {
   void onHourChange(double value) {
     setState(() {
       time = time.replacing(hour: value.round());
+      if (value == DateTime.now().hour.toDouble() + 1) {
+        time = time.replacing(minute: DateTime.now().minute);
+      }
     });
   }
 
