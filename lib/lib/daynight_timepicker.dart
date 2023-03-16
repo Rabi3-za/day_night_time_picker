@@ -142,7 +142,7 @@ PageRouteBuilder showPicker({
       if (iosStylePicker) {
         return Theme(
           data: themeData ?? Theme.of(context),
-          child: const DayNightTimePickerIos(),
+          child: DayNightTimePickerIos(myStyle: myStyle),
         );
       } else {
         return Theme(

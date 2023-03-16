@@ -24,6 +24,8 @@ class DisplayWheel extends StatelessWidget {
   /// Whether the wheel is disabled or not
   final bool disabled;
 
+  final TextStyle? myStyle;
+
   /// Constructor for the [Widget]
   const DisplayWheel({
     Key? key,
@@ -33,12 +35,13 @@ class DisplayWheel extends StatelessWidget {
     this.isSelected = false,
     this.disabled = false,
     this.getModifiedLabel,
+    this.myStyle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final timeState = TimeModelBinding.of(context);
-    final _commonTimeStyles = Theme.of(context).textTheme.headline2!.copyWith(
+    final _commonTimeStyles = myStyle ?? Theme.of(context).textTheme.headline2!.copyWith(
           fontSize: 30,
         );
 

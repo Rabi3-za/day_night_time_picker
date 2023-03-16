@@ -14,7 +14,9 @@ import 'utils.dart';
 /// Private class. [StatefulWidget] that renders the content of the picker.
 // ignore: must_be_immutable
 class DayNightTimePickerIos extends StatefulWidget {
-  const DayNightTimePickerIos({Key? key}) : super(key: key);
+  final TextStyle? myStyle;
+
+  const DayNightTimePickerIos({Key? key, this.myStyle}) : super(key: key);
 
   @override
   _DayNightTimePickerIosState createState() => _DayNightTimePickerIosState();
@@ -171,6 +173,7 @@ class _DayNightTimePickerIosState extends State<DayNightTimePickerIos> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             DisplayWheel(
+                              myStyle: widget.myStyle,
                               controller: _hourController!,
                               items: hours,
                               isSelected: timeState!.hourIsSelected,
@@ -182,6 +185,7 @@ class _DayNightTimePickerIosState extends State<DayNightTimePickerIos> {
                             ),
                             Text(timeState!.widget.hourLabel!),
                             DisplayWheel(
+                              myStyle: widget.myStyle,
                               controller: _minuteController!,
                               items: minutes,
                               isSelected: !timeState!.hourIsSelected,

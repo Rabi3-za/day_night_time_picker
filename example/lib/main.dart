@@ -72,7 +72,6 @@ class _HomeState extends State<Home> {
                         minMinute: isToday ? TimeOfDay.fromDateTime(DateTime.now().add(Duration(hours: 1))).minute.toDouble() : 0,
                         onChange: onTimeChanged,
                         minuteInterval: MinuteInterval.FIVE,
-
                         // Optional onChange to receive value as DateTime
                         onChangeDateTime: (DateTime dateTime) {
                           // print(dateTime);
