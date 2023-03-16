@@ -62,12 +62,17 @@ class _HomeState extends State<Home> {
                     backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                   onPressed: () {
+                    final date = DateTime.now();
+                    bool isToday = (date.year == DateTime.now().year && date.month == DateTime.now().month && date.day == DateTime.now().day);
                     Navigator.of(context).push(
                       showPicker(
                         context: context,
-                        value: _time,
+                        value: isToday ? TimeOfDay.fromDateTime(DateTime.now().add(Duration(hours: 1))) : TimeOfDay.now(),
+                        minHour: isToday ? TimeOfDay.fromDateTime(DateTime.now().add(Duration(hours: 1))).hour.toDouble() : double.infinity,
+                        minMinute: isToday ? TimeOfDay.fromDateTime(DateTime.now().add(Duration(hours: 1))).minute.toDouble() : 0,
                         onChange: onTimeChanged,
                         minuteInterval: MinuteInterval.FIVE,
+
                         // Optional onChange to receive value as DateTime
                         onChangeDateTime: (DateTime dateTime) {
                           // print(dateTime);

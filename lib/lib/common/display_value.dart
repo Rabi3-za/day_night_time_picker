@@ -13,25 +13,26 @@ class DisplayValue extends StatelessWidget {
 
   /// Whether the [value] is selected or not
   final bool isSelected;
+  final TextStyle? myStyle;
 
   /// Constructor for the [Widget]
   const DisplayValue({
     Key? key,
     required this.value,
     this.onTap,
+    this.myStyle,
     this.isSelected = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final timeState = TimeModelBinding.of(context);
-    final _commonTimeStyles = Theme.of(context).textTheme.headline2!.copyWith(
+    final _commonTimeStyles = myStyle ?? Theme.of(context).textTheme.headline2!.copyWith(
           fontSize: 62,
           fontWeight: FontWeight.bold,
         );
 
-    final color =
-        timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
+    final color = timeState.widget.accentColor ?? Theme.of(context).colorScheme.secondary;
     final unselectedColor = timeState.widget.unselectedColor ?? Colors.grey;
 
     return Material(
@@ -43,8 +44,7 @@ class DisplayValue extends StatelessWidget {
           child: Text(
             value,
             textScaleFactor: 1.0,
-            style: _commonTimeStyles.copyWith(
-                color: isSelected ? color : unselectedColor),
+            style: _commonTimeStyles.copyWith(color: isSelected ? color : unselectedColor),
           ),
         ),
       ),

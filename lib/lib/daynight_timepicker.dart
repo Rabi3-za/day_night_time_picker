@@ -116,7 +116,8 @@ PageRouteBuilder showPicker({
   ButtonStyle? buttonStyle,
   ButtonStyle? cancelButtonStyle,
   double? buttonsSpacing,
-  bool hideButtons = false
+  bool hideButtons = false,
+  TextStyle? myStyle,
 }) {
   if (minHour == double.infinity) {
     minHour = 0;
@@ -146,7 +147,7 @@ PageRouteBuilder showPicker({
       } else {
         return Theme(
           data: themeData ?? Theme.of(context),
-          child: const DayNightTimePickerAndroid(),
+          child: DayNightTimePickerAndroid(myStyle: myStyle,),
         );
       }
     },

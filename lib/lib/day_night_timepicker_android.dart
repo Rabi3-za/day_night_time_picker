@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 /// Private class. [StatefulWidget] that renders the content of the picker.
 // ignore: must_be_immutable
 class DayNightTimePickerAndroid extends StatefulWidget {
-  const DayNightTimePickerAndroid({Key? key}) : super(key: key);
+  final TextStyle? myStyle;
+
+  const DayNightTimePickerAndroid({Key? key, this.myStyle}) : super(key: key);
 
   @override
   DayNightTimePickerAndroidState createState() => DayNightTimePickerAndroidState();
@@ -70,6 +72,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             DisplayValue(
+                              myStyle: widget.myStyle,
                               onTap: timeState.widget.disableHour!
                                   ? null
                                   : () {
@@ -82,6 +85,7 @@ class DayNightTimePickerAndroidState extends State<DayNightTimePickerAndroid> {
                               value: ":",
                             ),
                             DisplayValue(
+                              myStyle: widget.myStyle,
                               onTap: timeState.widget.disableMinute!
                                   ? null
                                   : () {
